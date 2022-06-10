@@ -19,9 +19,8 @@ private:
 
 public:
 	Interface();
-
-	void provideUI();
-
 	~Interface();
+	void provideUI();
+	
 };
 

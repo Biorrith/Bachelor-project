@@ -53,7 +53,7 @@ void MessageHandler::takePictures(bool smallBox){
 			grabber->grabImage(i, 0);
 			Sleep(100);
 		}
-		up();
+		down();
 		Sleep(500);
 	}
 
@@ -76,15 +76,13 @@ void MessageHandler::goBack(bool smallBox){
 		Sleep(200);
 	}
 	for (int i = 0; i < y; i++){
-		down();
+		up();
 		Sleep(200);
 	}
 }
 
 
-void MessageHandler::takePicture(){
-	grabber->grabSample(true);
-}
+
 
 
 
@@ -93,7 +91,11 @@ void MessageHandler::takePicture(){
 
 
 void MessageHandler::takeSample (){
-	grabber->grabSample(false);
+	grabber->grabSample(false); //False, don't store
+}
+
+void MessageHandler::takePicture(){
+	grabber->grabSample(true); //True, do store
 }
 
 bool MessageHandler::setExposureTime(double expoTime){
@@ -125,7 +127,7 @@ void MessageHandler::right(){
 	cout << "Send success is: " << is_sent << endl;
 }
 
-void MessageHandler::up(){
+void MessageHandler::down(){
 	char message[] = { "G91G0Y-1\n" };
 
 	bool is_sent = serialCom->WriteSerialPort(message);
@@ -133,7 +135,7 @@ void MessageHandler::up(){
 	cout << "Send success is: " << is_sent << endl;
 }
 
-void MessageHandler::down(){
+void MessageHandler::up(){
 	char message[] = { "G91G0Y1\n" };
 
 	bool is_sent = serialCom->WriteSerialPort(message);

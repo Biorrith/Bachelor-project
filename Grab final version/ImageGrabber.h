@@ -11,9 +11,10 @@
 using namespace std;
 using namespace Basler_UniversalCameraParams;
 
-class ImageGrabber : 
-	public Pylon::CImageEventHandler,
-	public Pylon::CConfigurationEventHandler{
+//:
+//public Pylon::CImageEventHandler,
+//public Pylon::CConfigurationEventHandler
+class ImageGrabber{
 
 	public:
 		ImageGrabber(double = 25000.0);
