@@ -116,8 +116,8 @@ void Interface::provideUI()
 	//Go back to the start and grab a new picture
 	
 	if (connected){
-		handler->takePictures(scanSpace);
-		Sleep(2000);
+		handler->takeImages(scanSpace);
+		Sleep(2000);	
 		handler->goBack(scanSpace);
 		//handler.takePicture(); //Grabbing an image to compare to the original 0x0 position picture.
 	}

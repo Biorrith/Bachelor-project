@@ -55,7 +55,7 @@ void ImageGrabber::set_time(){
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 
-	strftime(buffer, sizeof(buffer), "%d-%m-%Y %H-%M-%S", timeinfo);
+	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H-%M-%S", timeinfo);
 	string str(buffer);
 	date_time = str;
 }

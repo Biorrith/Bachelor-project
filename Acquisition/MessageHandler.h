@@ -15,7 +15,7 @@ public:
 	void right();
 	bool connectedUSB();
 	bool connectedCamera();
-	void takePictures(bool smallBox); //Take pictures of the whole thing, based on input
+	void takeImages(bool smallBox); //Take pictures of the whole thing, based on input
 	void takeSample(); //Show a sample picture
 	void takePicture(); //Take a single picture
 	void goBack(bool smallBox);

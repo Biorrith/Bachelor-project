@@ -15,7 +15,7 @@ MessageHandler::MessageHandler()
 
 }
 
-void MessageHandler::takePictures(bool smallBox){
+void MessageHandler::takeImages(bool smallBox){
 	Sleep(500);
 	cout << "Starting pictuer grabbing" << endl;
 	int x, y;
