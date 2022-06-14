@@ -9,8 +9,10 @@ import glob
 import os
 from skimage.io import imshow, imshow_collection, imread_collection
 
-
+#The classifier responsible for the classification of images, which it does with a provided model.
 class Classifier:
+
+    #Standard values, can be changed.
     def __init__(self, model_path='Models/EfficientNetB7.h5', image_size=224, input_path='CNN custom 1/', output_path='Classification'):
         self.model = kr.models.load_model(model_path)
         self.image_size = image_size
@@ -33,6 +35,8 @@ class Classifier:
         
         time_count = 0
         count = 0
+
+        #Classify all images, and store them as the max index.
         for img in imgs:            
             start = time.time()
             img = cv2.resize(img, (self.image_size, self.image_size))
@@ -64,6 +68,7 @@ class Classifier:
 
 
 def main():
+    #Define the input and output path.
     input_path = 'outcome' 
     output_path= input_path + '/Result'
     
