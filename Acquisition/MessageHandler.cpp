@@ -3,6 +3,7 @@
 
 MessageHandler::MessageHandler()
 {
+	//Create a new image grabber.
 	grabber = new ImageGrabber();
 	Sleep(1000);
 
@@ -15,18 +16,21 @@ MessageHandler::MessageHandler()
 
 }
 
+//Taking the images of the tray. Smallbox represents if its the quadrant or the whole tray.
 void MessageHandler::takeImages(bool smallBox){
 	Sleep(500);
 	cout << "Starting pictuer grabbing" << endl;
 	int x, y;
 	if (smallBox){
-		 x = 9;
-		 y = 10;
+		 x = 9; //9 mm
+		 y = 10; //10 mm
 	}
 	else{
-		x = 90;
-		y = 51;
+		x = 90; //90 mm
+		y = 51; //51 mm
 	}
+
+	//For moving the camera in the right directions to follow the proper traverse path
 	for (int i = 0; i < y; i++){
 		for (int j = 0; j < x; j++){
 			if ((i % 2) == 0){
@@ -59,6 +63,8 @@ void MessageHandler::takeImages(bool smallBox){
 
 }
 
+
+//Go back to the starting position after the grabbing is done.
 void MessageHandler::goBack(bool smallBox){
 	Sleep(200);
 	cout << "Going back to starting position" << endl;
@@ -89,7 +95,6 @@ void MessageHandler::goBack(bool smallBox){
 //#################################################
 //Functions regarding the camera connection.
 
-
 void MessageHandler::takeSample (){
 	grabber->grabSample(false); //False, don't store
 }
@@ -101,6 +106,7 @@ void MessageHandler::takePicture(){
 bool MessageHandler::setExposureTime(double expoTime){
 	return grabber->setExposureTime(expoTime);
 }
+
 
 double MessageHandler::getExposureTime(){
 	return grabber->getExposureTime();
@@ -114,13 +120,13 @@ bool MessageHandler::connectedCamera(){
 //#################################################
 //Functions regarding the USB connection to the CNC.
 void MessageHandler::left(){
-	char message[] = { "G91G0X1\n" };
+	char message[] = { "G91G0X1\n" }; //G-code to move 1 in x direction.
 	bool is_sent = serialCom->WriteSerialPort(message);
 	cout << "Send success is: " << is_sent << endl;
 }
 
 void MessageHandler::right(){
-	char message[] = { "G91G0X-1\n" };
+	char message[] = { "G91G0X-1\n" }; //G-code to move -1 in x direction.
 
 	bool is_sent = serialCom->WriteSerialPort(message);
 
@@ -128,7 +134,7 @@ void MessageHandler::right(){
 }
 
 void MessageHandler::down(){
-	char message[] = { "G91G0Y-1\n" };
+	char message[] = { "G91G0Y-1\n" }; //G-code to move -1 in y direction.
 
 	bool is_sent = serialCom->WriteSerialPort(message);
 
@@ -136,12 +142,13 @@ void MessageHandler::down(){
 }
 
 void MessageHandler::up(){
-	char message[] = { "G91G0Y1\n" };
+	char message[] = { "G91G0Y1\n" }; //G-code to move 1 in y direction.
 
 	bool is_sent = serialCom->WriteSerialPort(message);
 
 	cout << "Send success is: " << is_sent << endl;
 }
+
 
 bool MessageHandler::connectedUSB(){
 	return serialCom->getConnected();

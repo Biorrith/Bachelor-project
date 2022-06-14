@@ -4,11 +4,11 @@
 using namespace Pylon;
 
 ImageGrabber::ImageGrabber(double expoTime){
-	//Make a folder named the current date-time
-	
-	set_time();
+
 	//Create a directory which has the name of the current timestamp.
+	set_time();
 	//https://stackoverflow.com/questions/27220/how-to-convert-stdstring-to-lpcwstr-in-c-unicode
+	//Convert string to LPCWSTR as that is the only input CreateDirectory accepts.
 	wstring wdate_time = wstring(date_time.begin(), date_time.end());
 	LPCWSTR date_time_w = wdate_time.c_str(); //define an array with size of my_str + 1
 	
@@ -20,8 +20,10 @@ ImageGrabber::ImageGrabber(double expoTime){
 	else
 		cout << "Directory successfully created." << endl;
 
+	//Initialize the pylon libraries
 	Pylon::PylonInitialize();
 
+	//Try to create a camera class for grabbing.
 	try{
 		camera = new CBaslerUniversalInstantCamera(Pylon::CTlFactory::GetInstance().CreateFirstDevice());
 		
@@ -45,7 +47,7 @@ ImageGrabber::ImageGrabber(double expoTime){
 	}
 }
 
-
+//Function setting the current time in the private date_time variable.
 //https://stackoverflow.com/questions/16357999/current-date-and-time-as-string
 void ImageGrabber::set_time(){
 	time_t rawtime;
@@ -59,7 +61,6 @@ void ImageGrabber::set_time(){
 	string str(buffer);
 	date_time = str;
 }
-
 
 
 
@@ -79,11 +80,10 @@ void ImageGrabber::grabImage(int y, int x){
 			camera->RetrieveResult(5000, ptrGrabResult, Pylon::TimeoutHandling_ThrowException);
 
 
-			// Image grabbed successfully?
+			// Image grabbed successfully
 			if (ptrGrabResult->GrabSucceeded())
 			{				
 				//Save image taken from Utility_ImageLoadAndSave file in the date_time directory
-				
 				string file_dest = date_time + "/" + to_string(y) + "x" + to_string(x) + ".png";
 				//int n = file_dest.length();
 				const char *file_dest_char = file_dest.c_str();
@@ -130,13 +130,13 @@ void ImageGrabber::grabSample(bool savePicture){
 			// Wait for an image and then retrieve it. A timeout of 5000 ms is used.
 			camera->RetrieveResult(5000, ptrGrabResult, Pylon::TimeoutHandling_ThrowException);
 
-			// Image grabbed successfully?
+			// Image grabbed successfully
 			if (ptrGrabResult->GrabSucceeded())
 			{
 
+				//Store if true
 				if (savePicture){
 					string file_dest = date_time + "/sample.png";
-					//int n = file_dest.length();
 					const char *file_dest_char = file_dest.c_str();
 
 					CImagePersistence::Save(ImageFileFormat_Png, file_dest_char, ptrGrabResult);
@@ -166,7 +166,6 @@ void ImageGrabber::grabSample(bool savePicture){
 }
 
 
-
 bool ImageGrabber::setExposureTime(double expoTime){
 	try{
 		camera->Open();
@@ -181,6 +180,7 @@ bool ImageGrabber::setExposureTime(double expoTime){
 		return false;
 	}
 }
+
 
 double ImageGrabber::getExposureTime(){
 	return exposureTime;

@@ -6,10 +6,12 @@ Interface::Interface()
 	handler = new MessageHandler();
 }
 
+//Clears the console
 void Interface::clearConsole() {
 	system("cls");
 }
 
+//Control menu
 void Interface::printSwitch() {
 	cout << "#############################################" << endl << endl;
 	cout << "Press 1 to start scanning." << endl;
@@ -21,6 +23,8 @@ void Interface::printSwitch() {
 	cout << "#############################################" << endl;
 }
 
+
+//The main switch statement handles the user inputs.
 void Interface::provideUI()
 {
 	bool connected = false;
@@ -30,9 +34,13 @@ void Interface::provideUI()
 
 	bool settingUp = true;
 	int scanSpace;
+
+	//While 
 	while (settingUp && connected) {
 		printSwitch();
 		int input = 0;
+
+		//Handles error inputs
 		if (!(cin >> input)) {
 			cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -45,14 +53,14 @@ void Interface::provideUI()
 			cout << "Press 1 if you wish to scan a single square of the board, press 0 if you wish to scan the whole board." << endl;
 
 			while (settingUp){
-				scanSpace = -1;
-				if (!(std::cin >> scanSpace)) {
+				scanSpace = -1; 
+				if (!(std::cin >> scanSpace)) {//Handles error inputs
 					clearConsole();
 					std::cin.clear(); //clear bad input flag
 					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //discard input
 					std::cout << "Invalid input; please re-enter either 0 or 1.\n";
 				}
-				else if (scanSpace != 0 && scanSpace != 1){
+				else if (scanSpace != 0 && scanSpace != 1){ //Only 0 and 1 are valid inputs
 					clearConsole();
 					std::cout << "Invalid input; please re-enter either 0 or 1.\n";
 				}
@@ -63,15 +71,15 @@ void Interface::provideUI()
 
 			break;
 		case 2:
+			//Grab a sample
 			clearConsole();
 			handler->takeSample();
 			clearConsole();
 			break;
 		case 3:
+			//Change the exposure time
 			double exposureTime;
 			clearConsole();
-			//TODO: change the speed of the pictures if lower exposure time.
-			//TODO: make printExposure a function in handler/ImageGrabber
 			//https://www.codegrepper.com/code-examples/cpp/c%2B%2B+check+if+cin+got+the+wrong+type
 			while (cout << "Please enter wanted exposure time. Current exposure time is " << handler->getExposureTime() << endl
 				&& !(std::cin >> exposureTime)) {
